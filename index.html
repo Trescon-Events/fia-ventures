@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIA Ventures — Empowering Innovation, Driving Impact</title>
+  <meta name="description" content="FIA Ventures is a Dubai-headquartered investment firm backing visionary entrepreneurs in AI, FinTech, Cybersecurity, and Sustainability." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23071a12'/><text y='.85em' font-size='72' font-family='Georgia,serif' fill='%23d4af37' x='50%25' text-anchor='middle'>F</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: { 300: '#f0d080', 400: '#d4af37', 500: '#c9a84c', 600: '#a8892a' },
+            dark: { 900: '#040e09', 800: '#071a12', 700: '#0e2a1e', 600: '#14382a', 500: '#1a4a32', 400: '#225e40' }
+          },
+          fontFamily: { sans: ['Space Grotesk', 'sans-serif'], serif: ['Crimson Pro', 'serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #071a12; color: #e8f5ee; font-family: 'Space Grotesk', sans-serif; }
+
+    /* Gold gradient text */
+    .gold-text {
+      background: linear-gradient(135deg, #d4af37 0%, #f0d080 50%, #a8892a 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* Grain overlay */
+    .grain-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9998; opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* Grid background */
+    .grid-bg {
+      background-image: linear-gradient(rgba(212,175,55,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Glow */
+    .gold-glow { box-shadow: 0 0 40px rgba(212,175,55,0.2), 0 0 80px rgba(20,100,50,0.15); }
+    .gold-glow-sm { box-shadow: 0 0 20px rgba(212,175,55,0.15), 0 0 40px rgba(20,100,50,0.1); }
+
+    /* Card hover */
+    .card-hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 0 30px rgba(212,175,55,0.12), 0 0 60px rgba(20,100,50,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      border-color: rgba(212,175,55,0.55) !important;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 50px rgba(212,175,55,0.28), 0 0 100px rgba(20,120,60,0.15);
+    }
+
+    /* Navbar */
+    #navbar { transition: background 0.3s ease, backdrop-filter 0.3s ease; }
+    #navbar.scrolled {
+      background: rgba(7,26,18,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212,175,55,0.2);
+    }
+
+    /* Nav link underline animation */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px;
+      background: #d4af37; transition: width 0.25s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .nav-link.active { color: #d4af37 !important; }
+
+    /* Stat bar */
+    .stat-bar { transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Mobile menu */
+    #mobile-menu { transition: max-height 0.3s ease, opacity 0.3s ease; }
+
+    /* Icon ring */
+    .icon-ring { background: radial-gradient(circle, rgba(20,120,60,0.25) 0%, rgba(212,175,55,0.08) 60%, transparent 100%); }
+
+    /* Hero glow */
+    .hero-glow { background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(20,120,60,0.18) 0%, rgba(212,175,55,0.06) 50%, transparent 70%); }
+
+    /* Hero orb animation */
+    @keyframes orb-drift {
+      0%   { transform: translate(-50%,-50%) scale(1);    opacity: 0.08; }
+      33%  { transform: translate(-45%,-55%) scale(1.12); opacity: 0.12; }
+      66%  { transform: translate(-56%,-44%) scale(0.94); opacity: 0.07; }
+      100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.08; }
+    }
+    .hero-orb { animation: orb-drift 14s ease-in-out infinite; }
+
+    /* Divider */
+    .gold-divider { background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), rgba(20,120,60,0.3), rgba(212,175,55,0.5), transparent); }
+
+    /* Portfolio tag */
+    .portfolio-tag { font-size: 0.65rem; letter-spacing: 0.1em; }
+
+    /* Scroll indicator */
+    @keyframes bounce-slow { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+    .bounce-slow { animation: bounce-slow 2s infinite; }
+
+    /* Quote mark */
+    .quote-mark { font-size: 5rem; line-height: 0.8; }
+
+    /* Inputs */
+    input:focus, textarea:focus, select:focus {
+      outline: none; border-color: rgba(212,175,55,0.6) !important; box-shadow: 0 0 0 3px rgba(212,175,55,0.08);
+    }
+
+    /* Section numbers */
+    .section-num {
+      position: absolute; font-family: 'Playfair Display', serif;
+      font-size: clamp(5rem, 12vw, 9rem); font-weight: 700;
+      color: rgba(212,175,55,0.04); top: -1rem; left: 50%;
+      transform: translateX(-50%); line-height: 1;
+      pointer-events: none; user-select: none; white-space: nowrap;
+    }
+
+    /* Team rings */
+    .team-ring {
+      position: absolute; border-radius: 50%; border: 1px solid rgba(212,175,55,0.07);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+    }
+
+    /* Portfolio CTA card */
+    .portfolio-cta {
+      background: linear-gradient(135deg, rgba(14,42,30,0.9) 0%, rgba(20,56,42,0.7) 100%);
+      border: 1px dashed rgba(212,175,55,0.3);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Grain texture -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50">
+    <nav class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-18 py-4">
+      <a href="#home" class="flex items-center">
+        <svg height="40" viewBox="0 0 80 67" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="FIA Ventures">
+          <path d="M61.6729 15.7148H78.9797V34.4454H69.6923V25.7646H61.6729V15.7148Z" fill="#CCA03E"/>
+          <path d="M27.2646 28.229L27.2803 52.4695H37.3546V28.229H27.2646Z" fill="#ffffff"/>
+          <path d="M22.9274 9.48487C24.8917 9.48487 26.5842 9.63023 27.8677 9.84995V0.841302C26.2376 0.553971 23.9361 0.401855 20.9007 0.401855C16.0228 0.401855 12.4471 1.35174 10.1455 3.19065C7.50673 5.30675 6.14516 9.12317 6.14516 14.5351V15.5695H0.530273V25.4401H6.14204V52.4729H15.8885V25.4401H21.9874V15.5695H15.826V13.8726C15.826 10.7288 17.987 9.48487 22.9243 9.48487H22.9274Z" fill="#ffffff"/>
+          <path d="M69.3547 37.2445C68.9206 38.5764 68.1586 39.7832 67.125 40.8581C65.4699 42.5821 63.415 43.4373 60.9729 43.4373C58.5309 43.4373 56.601 42.5855 54.9521 40.8581C53.2876 39.0665 52.4913 36.92 52.4913 34.4084C52.4913 31.8968 53.2876 29.7503 54.9521 28.0364C56.1388 26.7418 57.5097 25.9271 59.0774 25.5823V15.7117C54.4212 15.7421 50.4833 17.5337 47.3292 21.154C44.2126 24.7372 42.6387 29.1756 42.6387 34.405C42.6387 39.6344 44.2157 44.083 47.3292 47.7338C50.5083 51.317 54.4805 53.1085 59.1836 53.1085C64.2113 53.1085 68.1243 50.8843 69.108 47.7338V52.4663H78.9793V37.2412H69.3578L69.3547 37.2445Z" fill="#ffffff"/>
+          <path d="M37.3546 15.5696H27.2646V25.4402H37.3546V15.5696Z" fill="#ffffff"/>
+          <path d="M10.5484 65.9233H8.66536L6.29199 59.8759H7.65668L9.54601 64.8653H9.6678L11.5571 59.8759H12.9218L10.5516 65.9233H10.5484Z" fill="#ffffff"/>
+          <path d="M17.8464 65.9233H16.5879V59.8759H17.8464V65.9233ZM21.7468 60.9643H16.6191V59.8759H21.7468V60.9643ZM21.8155 65.9233H16.616V64.8348H21.8155V65.9233ZM21.65 63.3847H17.2437V62.3334H21.65V63.3847Z" fill="#ffffff"/>
+          <path d="M25.8438 59.8759H27.6581L30.5249 64.5272H30.5999L30.5593 62.2421V59.8759H31.8271V65.9233H30.0908L27.1522 61.157H27.0742L27.1148 63.5604V65.9233H25.8438V59.8759Z" fill="#ffffff"/>
+          <path d="M41.5774 60.9778H35.6846V59.8759H41.5774V60.9778ZM39.2727 65.9233H37.9861V60.339H39.2727V65.9233Z" fill="#ffffff"/>
+          <path d="M48.3665 66.1059C47.3516 66.1059 46.599 65.8524 46.1118 65.3453C45.6215 64.8383 45.3779 64.0878 45.3779 63.0974V59.8793H46.6583V63.0872C46.6583 63.6923 46.7957 64.1554 47.0705 64.4766C47.3453 64.7977 47.7794 64.9566 48.3665 64.9566C48.9536 64.9566 49.3877 64.7977 49.6594 64.4766C49.9342 64.1554 50.0716 63.6923 50.0716 63.0872V59.8793H51.352V63.0974C51.352 64.0878 51.1084 64.8383 50.6212 65.3453C50.134 65.8524 49.3814 66.1059 48.3665 66.1059Z" fill="#ffffff"/>
+          <path d="M56.7984 65.9233H55.543V59.8758H56.7984V65.9233ZM61.3577 65.9233H59.9993L59.8431 65.014C59.7994 64.7503 59.737 64.5339 59.6558 64.3649C59.5746 64.1959 59.4559 64.0708 59.2966 63.9897C59.1374 63.9086 58.9157 63.868 58.6315 63.868L56.4236 63.8579V62.8302H58.8376C59.2154 62.8235 59.4934 62.7356 59.6651 62.57C59.8369 62.4043 59.9243 62.1778 59.9243 61.8939V61.8466C59.9243 61.566 59.84 61.3463 59.6714 61.1874C59.5027 61.0285 59.2311 60.9508 58.8532 60.9508H56.4267V59.8724H58.9968C59.7619 59.8724 60.3241 60.0212 60.6801 60.3186C61.0361 60.6161 61.2141 61.0387 61.2141 61.5863V61.6437C61.2141 62.0663 61.1048 62.3976 60.8893 62.6342C60.6738 62.8708 60.3428 63.0128 59.8962 63.0635V63.2562L59.5121 63.0567C59.89 63.0804 60.1867 63.1615 60.3959 63.29C60.6082 63.4218 60.7675 63.6077 60.8768 63.8477C60.9861 64.0877 61.0735 64.392 61.1422 64.7537L61.3608 65.9165L61.3577 65.9233Z" fill="#ffffff"/>
+          <path d="M66.5007 65.9233H65.2422V59.8759H66.5007V65.9233ZM70.4011 60.9643H65.2734V59.8759H70.4011V60.9643ZM70.473 65.9233H65.2734V64.8348H70.473V65.9233ZM70.3043 63.3847H65.898V62.3334H70.3043V63.3847Z" fill="#ffffff"/>
+          <path d="M76.9436 66.0754C76.572 66.0754 76.2222 66.045 75.8975 65.9875C75.5727 65.93 75.2823 65.8557 75.0199 65.7712C74.7576 65.6833 74.5328 65.5988 74.3454 65.5176L74.2111 64.2365C74.5421 64.4055 74.9481 64.5644 75.4228 64.7064C75.8975 64.8483 76.4034 64.9227 76.9405 64.9227C77.4776 64.9227 77.8524 64.8652 78.0866 64.7435C78.3208 64.6252 78.4363 64.4393 78.4363 64.1824V64.1689C78.4363 63.9931 78.3864 63.8545 78.2864 63.7531C78.1865 63.6517 78.0148 63.5739 77.7743 63.5131C77.5338 63.4522 77.1934 63.4049 76.7625 63.3644C76.1535 63.3035 75.6601 63.2089 75.2791 63.077C74.9013 62.9452 74.6233 62.7559 74.4516 62.5057C74.2767 62.2556 74.1924 61.9277 74.1924 61.5221V61.4984C74.1924 60.9136 74.4079 60.4741 74.8357 60.1767C75.2635 59.8792 75.9162 59.7305 76.7875 59.7305C77.3652 59.7305 77.8586 59.7812 78.2708 59.886C78.683 59.9908 79.0297 60.1091 79.3107 60.2409L79.4544 61.4105C79.1171 61.2449 78.7299 61.1063 78.2989 60.9981C77.8649 60.8899 77.4027 60.8358 76.9061 60.8358C76.5439 60.8358 76.2628 60.8629 76.0567 60.9204C75.8506 60.9778 75.7101 61.0522 75.6289 61.1502C75.5477 61.2483 75.5071 61.3666 75.5071 61.5085C75.5071 61.6573 75.5477 61.779 75.6289 61.877C75.7101 61.975 75.8694 62.0562 76.1067 62.1204C76.344 62.1846 76.6907 62.2421 77.1528 62.2894C77.7493 62.3502 78.2427 62.4381 78.6268 62.5564C79.0109 62.6748 79.2951 62.8573 79.4825 63.1007C79.6667 63.3441 79.7604 63.6855 79.7604 64.1249V64.1587C79.7604 64.8145 79.5293 65.2979 79.064 65.6089C78.6018 65.9199 77.8961 66.0754 76.9467 66.0754H76.9436Z" fill="#ffffff"/>
+        </svg>
+      </a>
+      <ul class="hidden md:flex items-center gap-8">
+        <li><a href="#home"      data-section="home"      class="nav-link text-xs text-white hover:text-gold-400 transition-colors duration-200 tracking-widest uppercase">Home</a></li>
+        <li><a href="#about"     data-section="about"     class="nav-link text-xs text-white hover:text-gold-400 transition-colors duration-200 tracking-widest uppercase">About</a></li>
+        <li><a href="#focus"     data-section="focus"     class="nav-link text-xs text-white hover:text-gold-400 transition-colors duration-200 tracking-widest uppercase">Focus Areas</a></li>
+        <li><a href="#portfolio" data-section="portfolio" class="nav-link text-xs text-white hover:text-gold-400 transition-colors duration-200 tracking-widest uppercase">Portfolio</a></li>
+        <li><a href="#team"      data-section="team"      class="nav-link text-xs text-white hover:text-gold-400 transition-colors duration-200 tracking-widest uppercase">Team</a></li>
+        <li><a href="#contact" class="text-sm px-5 py-2 border border-gold-500/50 text-gold-400 hover:bg-gold-500/10 rounded-lg transition-all duration-200 tracking-wide">Contact</a></li>
+      </ul>
+      <button id="menu-btn" class="md:hidden text-gray-200 hover:text-gold-400 transition-colors" aria-label="Toggle menu">
+        <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </nav>
+    <div id="mobile-menu" class="md:hidden hidden bg-dark-800/98 backdrop-blur-xl border-t border-dark-500/60">
+      <ul class="flex flex-col px-6 py-4 gap-4">
+        <li><a href="#home"      class="mobile-link text-sm text-gray-200 hover:text-gold-400 transition-colors py-2 block">Home</a></li>
+        <li><a href="#about"     class="mobile-link text-sm text-gray-200 hover:text-gold-400 transition-colors py-2 block">About</a></li>
+        <li><a href="#focus"     class="mobile-link text-sm text-gray-200 hover:text-gold-400 transition-colors py-2 block">Focus Areas</a></li>
+        <li><a href="#portfolio" class="mobile-link text-sm text-gray-200 hover:text-gold-400 transition-colors py-2 block">Portfolio</a></li>
+        <li><a href="#team"      class="mobile-link text-sm text-gray-200 hover:text-gold-400 transition-colors py-2 block">Team</a></li>
+        <li><a href="#contact"   class="mobile-link text-sm text-gold-400 py-2 block">Contact →</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section id="home" class="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+    <!-- Video background -->
+    <video autoplay muted loop playsinline
+           class="absolute inset-0 w-full h-full object-cover"
+           style="z-index:0;">
+      <source src="hero-bg.mp4" type="video/mp4" />
+    </video>
+    <!-- Dark overlay -->
+    <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to bottom, rgba(7,26,18,0.55) 0%, rgba(7,26,18,0.45) 60%, rgba(7,26,18,0.75) 100%);z-index:1;"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto w-full px-10 py-12 border border-white/10"
+         style="background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 8px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08);border-radius:1.5rem;">
+      <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-snug mb-4">
+        Empowering <span class="gold-text">Innovation,</span><br/>Driving Impact
+      </h1>
+      <p class="text-gray-200 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-7">
+        Backing visionary founders reshaping the future of AI, FinTech, Cybersecurity, and Sustainability.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="#portfolio" class="px-7 py-3 bg-gold-400 hover:bg-gold-300 text-dark-900 font-semibold text-sm tracking-wide rounded-xl transition-all duration-200 gold-glow-sm hover:scale-[1.02]">View Portfolio</a>
+        <a href="#about"     class="px-7 py-3 border border-white/20 text-white hover:border-gold-400/50 hover:text-gold-400 text-sm tracking-wide rounded-lg transition-all duration-200">Our Mission</a>
+      </div>
+    </div>
+
+    <button onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})"
+            class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 bounce-slow cursor-pointer hover:opacity-70 transition-opacity z-10">
+      <span class="text-xs text-gray-300 tracking-widest uppercase">Scroll</span>
+      <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+  </section>
+
+  <div class="h-px gold-divider w-full"></div>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="reveal">
+        <div class="inline-flex items-center gap-2 mb-6">
+          <div class="h-px w-8 bg-gold-400"></div>
+          <span class="text-gold-400/80 text-xs tracking-[0.25em] uppercase font-medium">About Us</span>
+        </div>
+        <div class="relative mb-6">
+          <span class="section-num" style="top:-2rem;">01</span>
+          <h2 class="font-serif text-4xl md:text-5xl font-bold text-white leading-tight relative">
+            Where Capital Meets<br/><span class="gold-text">Conviction</span>
+          </h2>
+        </div>
+        <p class="text-white/90 leading-relaxed mb-6 text-xl">
+          FIA Ventures is a Dubai-headquartered investment firm built for a new era of technology. We partner with visionary entrepreneurs who are building groundbreaking solutions that will shape tomorrow's technology landscape.
+        </p>
+        <p class="text-white/85 leading-relaxed mb-8 text-xl">
+          Beyond capital, we bring strategic mentorship, a global network of operators and co-investors, and deep domain expertise across our four core verticals. We believe the most transformative companies aren't just built — they're cultivated through the right partnerships.
+        </p>
+        <div class="flex items-center gap-6">
+          <a href="#contact" class="px-6 py-3 bg-gold-400 hover:bg-gold-300 text-dark-900 font-semibold text-sm tracking-wide rounded-lg transition-all duration-200">Partner With Us</a>
+          <a href="#focus" class="text-sm text-gold-400 border border-gold-400/40 hover:border-gold-400 hover:bg-gold-400/10 px-5 py-2.5 rounded-lg transition-all duration-200 flex items-center gap-2 gold-glow-sm">Our Focus <span>→</span></a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 reveal">
+        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-6 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3 class="text-white font-semibold text-xl mb-2">Strategic Capital</h3>
+          <p class="text-gray-300 text-lg leading-relaxed">Patient, conviction-driven funding aligned with your vision.</p>
+        </div>
+        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-6 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <h3 class="text-white font-semibold text-xl mb-2">Global Network</h3>
+          <p class="text-gray-300 text-lg leading-relaxed">Access to investors, operators, and partners across the globe.</p>
+        </div>
+        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-6 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          </div>
+          <h3 class="text-white font-semibold text-xl mb-2">Deep Mentorship</h3>
+          <p class="text-gray-300 text-lg leading-relaxed">Hands-on guidance from founders who've built at scale.</p>
+        </div>
+        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-6 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+          </div>
+          <h3 class="text-white font-semibold text-xl mb-2">Dubai Advantage</h3>
+          <p class="text-gray-300 text-lg leading-relaxed">DIFC-based with access to the MENA and global ecosystems.</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <div class="h-px gold-divider w-full"></div>
+
+  <!-- ===================== FOUNDER QUOTE ===================== -->
+  <section class="relative py-24 px-6 overflow-hidden">
+    <!-- Background layers -->
+    <div class="absolute inset-0 bg-dark-900"></div>
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse 70% 80% at 20% 50%, rgba(20,80,45,0.35) 0%, transparent 70%);"></div>
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse 50% 60% at 80% 50%, rgba(212,175,55,0.06) 0%, transparent 60%);"></div>
+    <!-- Subtle grid -->
+    <div class="absolute inset-0 grid-bg opacity-40"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="flex flex-col lg:flex-row items-center lg:items-center gap-12 lg:gap-20">
+
+        <!-- Left: Quote -->
+        <div class="flex-1 reveal">
+          <!-- Decorative quote mark -->
+          <div class="mb-6">
+            <svg width="56" height="44" viewBox="0 0 56 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 44V26.8C0 18.4 2.4 11.6 7.2 6.4C12 1.2 18.4 0 24 0V8C20.8 8 18 9.2 15.6 11.6C13.2 14 12 17.2 12 21.2V24H24V44H0ZM32 44V26.8C32 18.4 34.4 11.6 39.2 6.4C44 1.2 50.4 0 56 0V8C52.8 8 50 9.2 47.6 11.6C45.2 14 44 17.2 44 21.2V24H56V44H32Z" fill="#CCA03E" fill-opacity="0.5"/>
+            </svg>
+          </div>
+          <blockquote class="font-serif text-2xl md:text-3xl lg:text-4xl text-white italic leading-snug">
+            "At Fia Ventures, we invest in ideas that have the power to shape industries, create impact, and inspire the world."
+          </blockquote>
+        </div>
+
+        <!-- Right: Photo + name -->
+        <div class="flex flex-col items-center text-center reveal lg:flex-shrink-0">
+          <div class="w-44 h-44 rounded-full overflow-hidden mb-5"
+               style="border: 2px solid rgba(212,175,55,0.5); box-shadow: 0 0 0 6px rgba(212,175,55,0.08), 0 0 40px rgba(212,175,55,0.15);">
+            <img src="https://fia-ventures.com/saleem-fia.png" alt="Mohammed Saleem"
+                 class="w-full h-full object-cover object-top"
+                 onerror="this.parentElement.style.background='#0e2a1e'" />
+          </div>
+          <h3 class="font-serif text-2xl font-semibold text-white mb-1">Mohammed Saleem</h3>
+          <p class="text-gold-400/70 text-sm tracking-wide">Founder — Fia Ventures</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px gold-divider w-full"></div>
+
+  <!-- ===================== FOCUS AREAS ===================== -->
+  <section id="focus" class="py-24 px-6 bg-dark-800/30">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 reveal" style="position:relative;">
+        <span class="section-num">02</span>
+        <div class="inline-flex items-center gap-2 mb-4 relative">
+          <div class="h-px w-8 bg-gold-400"></div>
+          <span class="text-gold-400/80 text-xs tracking-[0.25em] uppercase font-medium">Where We Invest</span>
+          <div class="h-px w-8 bg-gold-400"></div>
+        </div>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-4 relative">Our Focus Areas</h2>
+        <p class="text-gray-300 text-xl max-w-xl mx-auto relative">We concentrate our expertise and capital in four high-growth technology verticals reshaping the global economy.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- AI & ML -->
+        <div class="focus-card bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal group" style="transition-delay:0ms;">
+          <div class="mb-6">
+            <div class="w-12 h-12 rounded-xl bg-gold-500/8 border border-gold-500/15 flex items-center justify-center icon-ring mb-4 group-hover:border-gold-400/40 transition-colors">
+              <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2h-2"/></svg>
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-white mb-2">AI &amp; Machine Learning</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">Intelligent solutions transforming how we work and live, from generative AI to autonomous systems.</p>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-300 uppercase tracking-wider">Market Growth</span>
+              <span class="text-gold-400 font-semibold text-sm stat-label" data-target="40">0%</span>
+            </div>
+            <div class="h-1 bg-dark-500 rounded-full overflow-hidden">
+              <div class="stat-bar h-full rounded-full" data-width="40" style="background:linear-gradient(to right,#1a7a40,#d4af37);width:0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FinTech -->
+        <div class="focus-card bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal group" style="transition-delay:100ms;">
+          <div class="mb-6">
+            <div class="w-12 h-12 rounded-xl bg-gold-500/8 border border-gold-500/15 flex items-center justify-center icon-ring mb-4 group-hover:border-gold-400/40 transition-colors">
+              <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-white mb-2">FinTech</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">Innovative financial technologies democratizing access to capital, payments, and wealth management.</p>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-300 uppercase tracking-wider">Market Growth</span>
+              <span class="text-gold-400 font-semibold text-sm stat-label" data-target="35">0%</span>
+            </div>
+            <div class="h-1 bg-dark-500 rounded-full overflow-hidden">
+              <div class="stat-bar h-full rounded-full" data-width="35" style="background:linear-gradient(to right,#1a7a40,#d4af37);width:0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cybersecurity -->
+        <div class="focus-card bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal group" style="transition-delay:200ms;">
+          <div class="mb-6">
+            <div class="w-12 h-12 rounded-xl bg-gold-500/8 border border-gold-500/15 flex items-center justify-center icon-ring mb-4 group-hover:border-gold-400/40 transition-colors">
+              <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Cybersecurity</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">Protecting digital assets and privacy in an increasingly connected and threat-filled world.</p>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-300 uppercase tracking-wider">Market Growth</span>
+              <span class="text-gold-400 font-semibold text-sm stat-label" data-target="45">0%</span>
+            </div>
+            <div class="h-1 bg-dark-500 rounded-full overflow-hidden">
+              <div class="stat-bar h-full rounded-full" data-width="45" style="background:linear-gradient(to right,#1a7a40,#d4af37);width:0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sustainability -->
+        <div class="focus-card bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal group" style="transition-delay:300ms;">
+          <div class="mb-6">
+            <div class="w-12 h-12 rounded-xl bg-gold-500/8 border border-gold-500/15 flex items-center justify-center icon-ring mb-4 group-hover:border-gold-400/40 transition-colors">
+              <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Sustainability</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">Environmental technology innovations that create economic value while healing the planet.</p>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-300 uppercase tracking-wider">Market Growth</span>
+              <span class="text-gold-400 font-semibold text-sm stat-label" data-target="50">0%</span>
+            </div>
+            <div class="h-1 bg-dark-500 rounded-full overflow-hidden">
+              <div class="stat-bar h-full rounded-full" data-width="50" style="background:linear-gradient(to right,#1a7a40,#d4af37);width:0%;"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px gold-divider w-full"></div>
+
+  <!-- ===================== PORTFOLIO ===================== -->
+  <section id="portfolio" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 reveal" style="position:relative;">
+        <span class="section-num">03</span>
+        <div class="inline-flex items-center gap-2 mb-4 relative">
+          <div class="h-px w-8 bg-gold-400"></div>
+          <span class="text-gold-400/80 text-xs tracking-[0.25em] uppercase font-medium">Our Portfolio</span>
+          <div class="h-px w-8 bg-gold-400"></div>
+        </div>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-4 relative">Backed Companies</h2>
+        <p class="text-gray-300 text-xl max-w-2xl mx-auto relative">FIA Ventures proudly supports a diverse portfolio of trailblazing companies transforming industries and creating impactful solutions.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+
+        <!-- Magure -->
+        <a href="https://magureinc.com/" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal flex flex-col">
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-3">
+              <img src="logos/magure.svg" alt="Magure" class="max-h-9 max-w-[128px] w-auto object-contain"
+                   onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"/>
+              <div class="w-12 h-12 rounded-xl bg-dark-600 border border-dark-400 items-center justify-center hidden">
+                <span class="font-serif font-bold text-gold-400 text-lg">M</span>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1 items-end">
+              <span class="portfolio-tag px-2.5 py-1 rounded-full border border-gold-500/20 text-gold-400/70 uppercase tracking-widest">AI &amp; ML</span>
+              <span class="portfolio-tag px-2.5 py-1 rounded-full border border-gold-500/20 text-gold-400/70 uppercase tracking-widest">FinTech</span>
+            </div>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold text-white mb-2">Magure</h3>
+          <p class="text-gray-300 text-lg leading-relaxed flex-1">Revolutionizing business efficiency through intelligent software solutions and AI-driven automation.</p>
+          <div class="mt-6 pt-6 border-t border-dark-500 flex items-center justify-between">
+            <span class="text-sm text-gray-400">Portfolio Company</span>
+            <span class="text-gold-400 text-sm">↗</span>
+          </div>
+        </a>
+
+        <!-- Demandify -->
+        <a href="https://demandifymedia.com" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal flex flex-col" style="transition-delay:100ms;">
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-2">
+              <img src="logos/demandify.png" alt="Demandify" class="w-full h-full object-contain"
+                   onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"/>
+              <div class="w-12 h-12 rounded-xl bg-dark-600 border border-dark-400 items-center justify-center hidden">
+                <span class="font-serif font-bold text-gold-400 text-lg">D</span>
+              </div>
+            </div>
+            <span class="portfolio-tag px-2.5 py-1 rounded-full border border-gold-500/20 text-gold-400/70 uppercase tracking-widest">MarketingTech</span>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold text-white mb-2">Demandify</h3>
+          <p class="text-gray-300 text-lg leading-relaxed flex-1">Driving demand generation and growth marketing solutions for B2B businesses at scale.</p>
+          <div class="mt-6 pt-6 border-t border-dark-500 flex items-center justify-between">
+            <span class="text-sm text-gray-400">Portfolio Company</span>
+            <span class="text-gold-400 text-sm">↗</span>
+          </div>
+        </a>
+
+        <!-- Trescon -->
+        <a href="https://tresconglobal.com" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal flex flex-col" style="transition-delay:200ms;">
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-3">
+              <img src="logos/trescon.png" alt="Trescon" class="max-h-9 max-w-[128px] w-auto object-contain"
+                   onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"/>
+              <div class="w-12 h-12 rounded-xl bg-dark-600 border border-dark-400 items-center justify-center hidden">
+                <span class="font-serif font-bold text-gold-400 text-lg">T</span>
+              </div>
+            </div>
+            <span class="portfolio-tag px-2.5 py-1 rounded-full border border-gold-500/20 text-gold-400/70 uppercase tracking-widest">Event Services</span>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold text-white mb-2">Trescon</h3>
+          <p class="text-gray-300 text-lg leading-relaxed flex-1">A global business events and media company connecting industries through world-class conferences and exhibitions.</p>
+          <div class="mt-6 pt-6 border-t border-dark-500 flex items-center justify-between">
+            <span class="text-sm text-gray-400">Portfolio Company</span>
+            <span class="text-gold-400 text-sm">↗</span>
+          </div>
+        </a>
+
+        <!-- Aura -->
+        <a href="https://aurafinance.me" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal flex flex-col" style="transition-delay:300ms;">
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-3">
+              <img src="logos/aura-logo.png" alt="Aura" class="max-h-9 max-w-full w-auto object-contain"
+                   onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"/>
+              <div class="w-12 h-12 rounded-xl bg-dark-600 border border-dark-400 items-center justify-center hidden">
+                <span class="font-serif font-bold text-gold-400 text-base">Au</span>
+              </div>
+            </div>
+            <span class="portfolio-tag px-2.5 py-1 rounded-full border border-gold-500/20 text-gold-400/70 uppercase tracking-widest">FinTech</span>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold text-white mb-2">Aura</h3>
+          <p class="text-gray-300 text-lg leading-relaxed flex-1">Empowering a cashless world with innovative digital payment solutions.</p>
+          <div class="mt-6 pt-6 border-t border-dark-500 flex items-center justify-between">
+            <span class="text-sm text-gray-400">Portfolio Company</span>
+            <span class="text-gold-400 text-sm">↗</span>
+          </div>
+        </a>
+
+        <!-- Hedge5 -->
+        <a href="https://www.hedge5.in" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal flex flex-col" style="transition-delay:400ms;">
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-36 h-14 flex items-center justify-center rounded-xl px-3" style="background:#0d2a45;">
+              <img src="logos/hedge5.png" alt="Hedge5" class="max-h-9 max-w-[128px] w-auto object-contain"
+                   onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"/>
+              <div class="w-12 h-12 rounded-xl bg-dark-600 border border-dark-400 items-center justify-center hidden">
+                <span class="font-serif font-bold text-gold-400 text-base">H5</span>
+              </div>
+            </div>
+            <span class="portfolio-tag px-2.5 py-1 rounded-full border border-gold-500/20 text-gold-400/70 uppercase tracking-widest">FinTech</span>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold text-white mb-2">Hedge5</h3>
+          <p class="text-gray-300 text-lg leading-relaxed flex-1">Next-generation investment and portfolio management platform democratising access to sophisticated financial strategies.</p>
+          <div class="mt-6 pt-6 border-t border-dark-500 flex items-center justify-between">
+            <span class="text-sm text-gray-400">Portfolio Company</span>
+            <span class="text-gold-400 text-sm">↗</span>
+          </div>
+        </a>
+
+        <!-- Konfhub -->
+        <a href="https://konfhub.com" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-8 card-hover reveal flex flex-col" style="transition-delay:500ms;">
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-3">
+              <img src="logos/konfhub.svg" alt="Konfhub" class="max-h-9 max-w-[128px] w-auto object-contain"
+                   onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"/>
+              <div class="w-12 h-12 rounded-xl bg-dark-600 border border-dark-400 items-center justify-center hidden">
+                <span class="font-serif font-bold text-gold-400 text-lg">K</span>
+              </div>
+            </div>
+            <span class="portfolio-tag px-2.5 py-1 rounded-full border border-gold-500/20 text-gold-400/70 uppercase tracking-widest">Event Tech</span>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold text-white mb-2">Konfhub</h3>
+          <p class="text-gray-300 text-lg leading-relaxed flex-1">A modern conference and event management platform enabling seamless ticketing, scheduling, and attendee experiences.</p>
+          <div class="mt-6 pt-6 border-t border-dark-500 flex items-center justify-between">
+            <span class="text-sm text-gray-400">Portfolio Company</span>
+            <span class="text-gold-400 text-sm">↗</span>
+          </div>
+        </a>
+
+        <!-- CTA card — full width -->
+        <a href="#contact" class="portfolio-cta rounded-2xl px-10 py-8 card-hover reveal flex flex-col sm:flex-row items-center justify-between gap-6 group md:col-span-2 lg:col-span-3" style="transition-delay:600ms;">
+          <div class="flex items-center gap-6">
+            <div class="w-14 h-14 rounded-full border border-gold-500/30 flex items-center justify-center flex-shrink-0 group-hover:border-gold-400/60 transition-colors">
+              <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/></svg>
+            </div>
+            <div>
+              <h3 class="font-serif text-2xl font-semibold text-white mb-1">Explore Opportunities</h3>
+              <p class="text-gray-300 text-lg leading-relaxed max-w-xl">Building something transformative? Get in touch to explore investment opportunities with FIA Ventures.</p>
+            </div>
+          </div>
+          <span class="flex-shrink-0 text-xs text-gold-400 tracking-wider uppercase border border-gold-400/30 px-5 py-2.5 rounded-lg group-hover:border-gold-400/60 group-hover:bg-gold-400/5 transition-all whitespace-nowrap">Connect With Us →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px gold-divider w-full"></div>
+
+  <!-- ===================== TESTIMONIALS ===================== -->
+  <section class="py-24 px-6 bg-dark-800/30 grid-bg" style="position:relative;">
+    <span class="section-num" style="top:2rem;">04</span>
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12 reveal">
+        <div class="inline-flex items-center gap-2 mb-4">
+          <div class="h-px w-8 bg-gold-400"></div>
+          <span class="text-gold-400/80 text-xs tracking-[0.25em] uppercase font-medium">Founder Voices</span>
+          <div class="h-px w-8 bg-gold-400"></div>
+        </div>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-white">Stories of Success</h2>
+      </div>
+
+      <div class="relative reveal">
+        <div id="testimonial-track" class="overflow-hidden">
+          <div id="testimonial-slides" class="flex transition-transform duration-500 ease-in-out">
+
+            <div class="testimonial-slide w-full flex-shrink-0 px-1">
+              <div class="relative bg-dark-700 border border-dark-500 rounded-2xl p-10 md:p-14 gold-glow">
+                <div class="quote-mark font-serif text-gold-400/15 select-none absolute top-6 left-8">"</div>
+                <blockquote class="relative z-10 text-center">
+                  <p class="font-serif text-xl md:text-2xl text-white leading-relaxed mb-8 italic">"The team at Fia Ventures brings an exceptional blend of strategic insight and market expertise. Their involvement has been instrumental in helping us refine our go-to-market strategy and expand into new geographies. It's rare to find a partner who understands your vision as much as they do."</p>
+                  <footer class="flex flex-col items-center gap-3">
+                    <img src="photos/sunny-ashpal.png" alt="Sunny Ashpal" class="w-24 h-24 rounded-full ring-2 ring-gold-400/40 object-cover object-top" />
+                    <cite class="not-italic"><span class="text-white font-semibold block">Sunny Ashpal</span><span class="text-gray-300 text-sm">Co-founder &amp; Sales Director, Demandify</span></cite>
+                  </footer>
+                </blockquote>
+              </div>
+            </div>
+
+            <div class="testimonial-slide w-full flex-shrink-0 px-1">
+              <div class="relative bg-dark-700 border border-dark-500 rounded-2xl p-10 md:p-14 gold-glow">
+                <div class="quote-mark font-serif text-gold-400/15 select-none absolute top-6 left-8">"</div>
+                <blockquote class="relative z-10 text-center">
+                  <p class="font-serif text-xl md:text-2xl text-white leading-relaxed mb-8 italic">"Fia Ventures is not just about investing — they're about making a difference. Their approach to supporting businesses like ours has been transformative, enabling Magure to innovate and deliver intelligent solutions that truly matter."</p>
+                  <footer class="flex flex-col items-center gap-3">
+                    <img src="photos/akhil-koka.png" alt="Akhil Koka" class="w-24 h-24 rounded-full ring-2 ring-gold-400/40 object-cover object-top" />
+                    <cite class="not-italic"><span class="text-white font-semibold block">Akhil Koka</span><span class="text-gray-300 text-sm">CEO, Magure</span></cite>
+                  </footer>
+                </blockquote>
+              </div>
+            </div>
+
+            <div class="testimonial-slide w-full flex-shrink-0 px-1">
+              <div class="relative bg-dark-700 border border-dark-500 rounded-2xl p-10 md:p-14 gold-glow">
+                <div class="quote-mark font-serif text-gold-400/15 select-none absolute top-6 left-8">"</div>
+                <blockquote class="relative z-10 text-center">
+                  <p class="font-serif text-xl md:text-2xl text-white leading-relaxed mb-8 italic">"When you're working on something as challenging as decarbonization, having a partner like Fia Ventures makes all the difference. Their strategic backing and global connections have propelled Hedge5 to drive real, measurable impact."</p>
+                  <footer class="flex flex-col items-center gap-3">
+                    <img src="photos/umesh.png" alt="Umesh" class="w-24 h-24 rounded-full ring-2 ring-gold-400/40 object-cover object-top" />
+                    <cite class="not-italic"><span class="text-white font-semibold block">Umesh</span><span class="text-gray-300 text-sm">Co-founder, Hedge5</span></cite>
+                  </footer>
+                </blockquote>
+              </div>
+            </div>
+
+            <div class="testimonial-slide w-full flex-shrink-0 px-1">
+              <div class="relative bg-dark-700 border border-dark-500 rounded-2xl p-10 md:p-14 gold-glow">
+                <div class="quote-mark font-serif text-gold-400/15 select-none absolute top-6 left-8">"</div>
+                <blockquote class="relative z-10 text-center">
+                  <p class="font-serif text-xl md:text-2xl text-white leading-relaxed mb-8 italic">"The ability of Fia Ventures to balance innovation with a clear understanding of market needs is incredible. Their mentorship has strengthened Aura Finance's position as a next-generation FinTech company transforming the digital payments space."</p>
+                  <footer class="flex flex-col items-center gap-3">
+                    <img src="photos/shahrukh.png" alt="Shahrukh" class="w-24 h-24 rounded-full ring-2 ring-gold-400/40 object-cover object-top" />
+                    <cite class="not-italic"><span class="text-white font-semibold block">Shahrukh</span><span class="text-gray-300 text-sm">Co-founder, Aura Finance</span></cite>
+                  </footer>
+                </blockquote>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <button id="t-prev" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 w-10 h-10 rounded-full bg-dark-600 border border-dark-500 hover:border-gold-400/50 flex items-center justify-center text-gray-200 hover:text-gold-400 transition-all duration-200 hidden" aria-label="Previous">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button id="t-next" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 w-10 h-10 rounded-full bg-dark-600 border border-dark-500 hover:border-gold-400/50 flex items-center justify-center text-gray-200 hover:text-gold-400 transition-all duration-200 hidden" aria-label="Next">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div id="t-dots" class="flex justify-center gap-2 mt-8"></div>
+    </div>
+  </section>
+
+  <div class="h-px gold-divider w-full"></div>
+
+  <!-- ===================== TEAM ===================== -->
+  <section id="team" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 reveal" style="position:relative;">
+        <span class="section-num">05</span>
+        <div class="inline-flex items-center gap-2 mb-4 relative">
+          <div class="h-px w-8 bg-gold-400"></div>
+          <span class="text-gold-400/80 text-xs tracking-[0.25em] uppercase font-medium">Leadership</span>
+          <div class="h-px w-8 bg-gold-400"></div>
+        </div>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-4 relative">Our Team</h2>
+        <p class="text-gray-300 text-xl max-w-xl mx-auto relative">Experienced investors and operators united by a shared belief in the power of technology to transform industries.</p>
+      </div>
+
+      <div class="flex justify-center">
+        <!-- Decorative rings + card wrapper -->
+        <div class="relative flex items-center justify-center">
+          <div class="team-ring absolute" style="width:420px;height:420px;border:1px solid rgba(212,175,55,0.07);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+          <div class="team-ring absolute" style="width:540px;height:540px;border:1px solid rgba(212,175,55,0.04);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+          <div class="team-ring absolute" style="width:660px;height:660px;border:1px solid rgba(212,175,55,0.025);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+
+          <div class="bg-dark-700 border border-dark-500 rounded-2xl p-10 card-hover reveal max-w-sm w-full text-center relative z-10">
+            <div class="w-28 h-28 rounded-full border-2 border-gold-500/30 mx-auto mb-6 gold-glow-sm overflow-hidden">
+              <img src="https://fia-ventures.com/saleem-fia.png" alt="Mohammed Saleem"
+                   class="w-full h-full object-cover object-top"
+                   onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.innerHTML='<span style=&quot;font-family:serif;font-weight:700;color:#d4af37;font-size:1.5rem&quot;>MS</span>'" />
+            </div>
+            <h3 class="font-serif text-2xl font-semibold text-white mb-1">Mohammed Saleem</h3>
+            <p class="text-gold-400/70 text-sm mb-4 tracking-wide">Founder &amp; Managing Partner</p>
+            <p class="text-gray-300 text-lg leading-relaxed">Visionary investor and entrepreneur driving the future of technology investment from Dubai's thriving DIFC ecosystem.</p>
+            <div class="mt-6 pt-6 border-t border-dark-500 flex items-center justify-center gap-4">
+              <a href="https://linkedin.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-gold-400 transition-colors" aria-label="LinkedIn">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-gold-400 transition-colors" aria-label="X/Twitter">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px gold-divider w-full"></div>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section id="contact" class="py-24 px-6 bg-dark-800/30">
+    <div class="max-w-4xl mx-auto text-center reveal">
+      <div class="inline-flex items-center gap-2 mb-6">
+        <div class="h-px w-8 bg-gold-400"></div>
+        <span class="text-gold-400/80 text-xs tracking-[0.25em] uppercase font-medium">Get In Touch</span>
+        <div class="h-px w-8 bg-gold-400"></div>
+      </div>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+        Ready to Build<br/><span class="gold-text">Something Great?</span>
+      </h2>
+      <p class="text-gray-200 text-lg leading-relaxed mb-12 max-w-2xl mx-auto">Whether you're a founder seeking a partner who brings more than capital, or an LP interested in joining our ecosystem — we'd love to hear from you.</p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-14">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center">
+            <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <a href="mailto:info@fia-ventures.com" class="text-gold-400 hover:text-gold-300 text-base transition-colors">info@fia-ventures.com</a>
+        </div>
+        <div class="hidden sm:block h-5 w-px bg-dark-500"></div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center">
+            <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <span class="text-gray-300 text-base">Office 806, Liberty House, DIFC, Dubai</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-4">
+        <a href="https://linkedin.com/company/fia-ventures" target="_blank" rel="noopener"
+           class="flex items-center gap-2 px-6 py-3 border border-dark-500 text-gray-300 hover:border-gold-400/50 hover:text-gold-400 rounded-xl text-sm transition-all duration-200 gold-glow-sm">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://x.com/fiaventures" target="_blank" rel="noopener"
+           class="flex items-center gap-2 px-6 py-3 border border-dark-500 text-gray-300 hover:border-gold-400/50 hover:text-gold-400 rounded-xl text-sm transition-all duration-200 gold-glow-sm">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.741l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X / Twitter
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="border-t border-dark-500/50 bg-dark-900 py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-3 gap-12 mb-12">
+
+        <!-- Brand -->
+        <div class="flex flex-col items-start gap-3">
+          <a href="#home" class="flex items-center">
+            <svg height="34" viewBox="0 0 80 67" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M61.6729 15.7148H78.9797V34.4454H69.6923V25.7646H61.6729V15.7148Z" fill="#CCA03E"/>
+              <path d="M27.2646 28.229L27.2803 52.4695H37.3546V28.229H27.2646Z" fill="#ffffff"/>
+              <path d="M22.9274 9.48487C24.8917 9.48487 26.5842 9.63023 27.8677 9.84995V0.841302C26.2376 0.553971 23.9361 0.401855 20.9007 0.401855C16.0228 0.401855 12.4471 1.35174 10.1455 3.19065C7.50673 5.30675 6.14516 9.12317 6.14516 14.5351V15.5695H0.530273V25.4401H6.14204V52.4729H15.8885V25.4401H21.9874V15.5695H15.826V13.8726C15.826 10.7288 17.987 9.48487 22.9243 9.48487H22.9274Z" fill="#ffffff"/>
+              <path d="M69.3547 37.2445C68.9206 38.5764 68.1586 39.7832 67.125 40.8581C65.4699 42.5821 63.415 43.4373 60.9729 43.4373C58.5309 43.4373 56.601 42.5855 54.9521 40.8581C53.2876 39.0665 52.4913 36.92 52.4913 34.4084C52.4913 31.8968 53.2876 29.7503 54.9521 28.0364C56.1388 26.7418 57.5097 25.9271 59.0774 25.5823V15.7117C54.4212 15.7421 50.4833 17.5337 47.3292 21.154C44.2126 24.7372 42.6387 29.1756 42.6387 34.405C42.6387 39.6344 44.2157 44.083 47.3292 47.7338C50.5083 51.317 54.4805 53.1085 59.1836 53.1085C64.2113 53.1085 68.1243 50.8843 69.108 47.7338V52.4663H78.9793V37.2412H69.3578L69.3547 37.2445Z" fill="#ffffff"/>
+              <path d="M37.3546 15.5696H27.2646V25.4402H37.3546V15.5696Z" fill="#ffffff"/>
+              <path d="M10.5484 65.9233H8.66536L6.29199 59.8759H7.65668L9.54601 64.8653H9.6678L11.5571 59.8759H12.9218L10.5516 65.9233H10.5484Z" fill="#ffffff"/>
+              <path d="M17.8464 65.9233H16.5879V59.8759H17.8464V65.9233ZM21.7468 60.9643H16.6191V59.8759H21.7468V60.9643ZM21.8155 65.9233H16.616V64.8348H21.8155V65.9233ZM21.65 63.3847H17.2437V62.3334H21.65V63.3847Z" fill="#ffffff"/>
+              <path d="M25.8438 59.8759H27.6581L30.5249 64.5272H30.5999L30.5593 62.2421V59.8759H31.8271V65.9233H30.0908L27.1522 61.157H27.0742L27.1148 63.5604V65.9233H25.8438V59.8759Z" fill="#ffffff"/>
+              <path d="M41.5774 60.9778H35.6846V59.8759H41.5774V60.9778ZM39.2727 65.9233H37.9861V60.339H39.2727V65.9233Z" fill="#ffffff"/>
+              <path d="M48.3665 66.1059C47.3516 66.1059 46.599 65.8524 46.1118 65.3453C45.6215 64.8383 45.3779 64.0878 45.3779 63.0974V59.8793H46.6583V63.0872C46.6583 63.6923 46.7957 64.1554 47.0705 64.4766C47.3453 64.7977 47.7794 64.9566 48.3665 64.9566C48.9536 64.9566 49.3877 64.7977 49.6594 64.4766C49.9342 64.1554 50.0716 63.6923 50.0716 63.0872V59.8793H51.352V63.0974C51.352 64.0878 51.1084 64.8383 50.6212 65.3453C50.134 65.8524 49.3814 66.1059 48.3665 66.1059Z" fill="#ffffff"/>
+              <path d="M56.7984 65.9233H55.543V59.8758H56.7984V65.9233ZM61.3577 65.9233H59.9993L59.8431 65.014C59.7994 64.7503 59.737 64.5339 59.6558 64.3649C59.5746 64.1959 59.4559 64.0708 59.2966 63.9897C59.1374 63.9086 58.9157 63.868 58.6315 63.868L56.4236 63.8579V62.8302H58.8376C59.2154 62.8235 59.4934 62.7356 59.6651 62.57C59.8369 62.4043 59.9243 62.1778 59.9243 61.8939V61.8466C59.9243 61.566 59.84 61.3463 59.6714 61.1874C59.5027 61.0285 59.2311 60.9508 58.8532 60.9508H56.4267V59.8724H58.9968C59.7619 59.8724 60.3241 60.0212 60.6801 60.3186C61.0361 60.6161 61.2141 61.0387 61.2141 61.5863V61.6437C61.2141 62.0663 61.1048 62.3976 60.8893 62.6342C60.6738 62.8708 60.3428 63.0128 59.8962 63.0635V63.2562L59.5121 63.0567C59.89 63.0804 60.1867 63.1615 60.3959 63.29C60.6082 63.4218 60.7675 63.6077 60.8768 63.8477C60.9861 64.0877 61.0735 64.392 61.1422 64.7537L61.3608 65.9165L61.3577 65.9233Z" fill="#ffffff"/>
+              <path d="M66.5007 65.9233H65.2422V59.8759H66.5007V65.9233ZM70.4011 60.9643H65.2734V59.8759H70.4011V60.9643ZM70.473 65.9233H65.2734V64.8348H70.473V65.9233ZM70.3043 63.3847H65.898V62.3334H70.3043V63.3847Z" fill="#ffffff"/>
+              <path d="M76.9436 66.0754C76.572 66.0754 76.2222 66.045 75.8975 65.9875C75.5727 65.93 75.2823 65.8557 75.0199 65.7712C74.7576 65.6833 74.5328 65.5988 74.3454 65.5176L74.2111 64.2365C74.5421 64.4055 74.9481 64.5644 75.4228 64.7064C75.8975 64.8483 76.4034 64.9227 76.9405 64.9227C77.4776 64.9227 77.8524 64.8652 78.0866 64.7435C78.3208 64.6252 78.4363 64.4393 78.4363 64.1824V64.1689C78.4363 63.9931 78.3864 63.8545 78.2864 63.7531C78.1865 63.6517 78.0148 63.5739 77.7743 63.5131C77.5338 63.4522 77.1934 63.4049 76.7625 63.3644C76.1535 63.3035 75.6601 63.2089 75.2791 63.077C74.9013 62.9452 74.6233 62.7559 74.4516 62.5057C74.2767 62.2556 74.1924 61.9277 74.1924 61.5221V61.4984C74.1924 60.9136 74.4079 60.4741 74.8357 60.1767C75.2635 59.8792 75.9162 59.7305 76.7875 59.7305C77.3652 59.7305 77.8586 59.7812 78.2708 59.886C78.683 59.9908 79.0297 60.1091 79.3107 60.2409L79.4544 61.4105C79.1171 61.2449 78.7299 61.1063 78.2989 60.9981C77.8649 60.8899 77.4027 60.8358 76.9061 60.8358C76.5439 60.8358 76.2628 60.8629 76.0567 60.9204C75.8506 60.9778 75.7101 61.0522 75.6289 61.1502C75.5477 61.2483 75.5071 61.3666 75.5071 61.5085C75.5071 61.6573 75.5477 61.779 75.6289 61.877C75.7101 61.975 75.8694 62.0562 76.1067 62.1204C76.344 62.1846 76.6907 62.2421 77.1528 62.2894C77.7493 62.3502 78.2427 62.4381 78.6268 62.5564C79.0109 62.6748 79.2951 62.8573 79.4825 63.1007C79.6667 63.3441 79.7604 63.6855 79.7604 64.1249V64.1587C79.7604 64.8145 79.5293 65.2979 79.064 65.6089C78.6018 65.9199 77.8961 66.0754 76.9467 66.0754H76.9436Z" fill="#ffffff"/>
+            </svg>
+          </a>
+          <p class="text-gold-400/80 text-xs italic font-serif leading-relaxed">Empowering Innovation, Driving Impact</p>
+          <p class="text-gray-400 text-xs leading-relaxed">A Dubai-based venture firm backing<br/>the next generation of tech founders.</p>
+        </div>
+
+        <!-- Office -->
+        <div>
+          <h4 class="text-white/60 text-xs uppercase tracking-widest mb-4 font-medium">Office</h4>
+          <p class="text-gray-400 text-sm leading-relaxed mb-3">Office 806, 8th Floor<br/>Liberty House, DIFC<br/>Dubai, UAE</p>
+          <a href="mailto:info@fia-ventures.com" class="text-gold-400/90 hover:text-gold-400 text-sm transition-colors">info@fia-ventures.com</a>
+        </div>
+
+        <!-- Nav -->
+        <div>
+          <h4 class="text-white/60 text-xs uppercase tracking-widest mb-4 font-medium">Navigation</h4>
+          <ul class="flex flex-col gap-2.5">
+            <li><a href="#about"     class="text-sm text-gray-400 hover:text-gold-400 transition-colors">About</a></li>
+            <li><a href="#focus"     class="text-sm text-gray-400 hover:text-gold-400 transition-colors">Focus Areas</a></li>
+            <li><a href="#portfolio" class="text-sm text-gray-400 hover:text-gold-400 transition-colors">Portfolio</a></li>
+            <li><a href="#team"      class="text-sm text-gray-400 hover:text-gold-400 transition-colors">Team</a></li>
+            <li><a href="#contact"   class="text-sm text-gray-400 hover:text-gold-400 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-dark-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-gray-400 text-xs">© 2025 FIA Ventures. All rights reserved. Dubai International Financial Centre, UAE.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="text-xs text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+          <span class="text-gray-500">·</span>
+          <a href="#" class="text-xs text-gray-400 hover:text-white transition-colors">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== JAVASCRIPT ===================== -->
+  <script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    menuBtn.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden', isOpen);
+      hamburgerIcon.classList.toggle('hidden', !isOpen);
+      closeIcon.classList.toggle('hidden', isOpen);
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+
+    // Active nav on scroll
+    const navLinks = document.querySelectorAll('.nav-link[data-section]');
+    const sectionIds = ['home','about','focus','portfolio','team','contact'];
+    const sectionEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.dataset.section === entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.35, rootMargin: '-60px 0px -35% 0px' });
+    sectionEls.forEach(el => navObserver.observe(el));
+
+    // Reveal on scroll
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Count-up + stat bar animation for focus cards
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const card = entry.target;
+        const label = card.querySelector('.stat-label');
+        const bar   = card.querySelector('.stat-bar');
+        if (!label || !bar) return;
+
+        const targetNum = parseInt(label.dataset.target, 10);
+        const barWidth  = parseInt(bar.dataset.width, 10);
+        const duration  = 1300;
+        const startTime = performance.now();
+
+        bar.style.width = barWidth + '%';
+
+        function tick(now) {
+          const t = Math.min((now - startTime) / duration, 1);
+          const ease = 1 - Math.pow(1 - t, 3);
+          label.textContent = Math.round(ease * targetNum) + '%';
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        statObserver.unobserve(card);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.focus-card').forEach(card => statObserver.observe(card));
+
+    // Testimonial carousel
+    (function() {
+      const slides = document.querySelectorAll('.testimonial-slide');
+      const track  = document.getElementById('testimonial-slides');
+      const dotsEl = document.getElementById('t-dots');
+      const prev   = document.getElementById('t-prev');
+      const next   = document.getElementById('t-next');
+      let current  = 0;
+      const total  = slides.length;
+
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'rounded-full transition-all duration-300 ' + (i === 0 ? 'bg-gold-400 w-6 h-2' : 'bg-dark-500 hover:bg-gold-400/50 w-2 h-2');
+        d.setAttribute('aria-label', 'Slide ' + (i+1));
+        d.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(d);
+      });
+
+      if (total > 1) { prev.classList.remove('hidden'); next.classList.remove('hidden'); }
+
+      function updateDots() {
+        dotsEl.querySelectorAll('button').forEach((d, i) => {
+          d.className = 'rounded-full transition-all duration-300 ' + (i === current ? 'bg-gold-400 w-6 h-2' : 'bg-dark-500 hover:bg-gold-400/50 w-2 h-2');
+        });
+      }
+
+      function goTo(n) {
+        current = (n + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        updateDots();
+      }
+
+      prev.addEventListener('click', () => goTo(current - 1));
+      next.addEventListener('click', () => goTo(current + 1));
+
+      let timer = setInterval(() => goTo(current + 1), 6000);
+      [prev, next].forEach(btn => btn.addEventListener('click', () => {
+        clearInterval(timer);
+        timer = setInterval(() => goTo(current + 1), 6000);
+      }));
+
+      updateDots();
+    })();
+
+    // Contact form
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('form-success');
+      msg.classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => msg.classList.add('hidden'), 5000);
+    });
+  </script>
+</body>
+</html>
