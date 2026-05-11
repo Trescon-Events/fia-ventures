@@ -46,18 +46,22 @@
     }
 
     /* Glow */
-    .gold-glow { box-shadow: 0 0 40px rgba(212,175,55,0.2), 0 0 80px rgba(20,100,50,0.15); }
-    .gold-glow-sm { box-shadow: 0 0 20px rgba(212,175,55,0.15), 0 0 40px rgba(20,100,50,0.1); }
+    .gold-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 28px rgba(212,175,55,0.28); }
+    .gold-glow-sm { box-shadow: 0 0 18px rgba(212,175,55,0.22); }
 
     /* Card hover */
     .card-hover {
-      box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 0 30px rgba(212,175,55,0.12), 0 0 60px rgba(20,100,50,0.1);
+      box-shadow:
+        0 6px 24px rgba(0,0,0,0.35),
+        0 0 24px rgba(212,175,55,0.18);
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
     .card-hover:hover {
       transform: translateY(-5px);
-      border-color: rgba(212,175,55,0.55) !important;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 50px rgba(212,175,55,0.28), 0 0 100px rgba(20,120,60,0.15);
+      border-color: rgba(212,175,55,0.6) !important;
+      box-shadow:
+        0 18px 44px rgba(0,0,0,0.45),
+        0 0 36px rgba(212,175,55,0.4);
     }
 
     /* Navbar */
@@ -137,8 +141,60 @@
     /* Portfolio CTA card */
     .portfolio-cta {
       background: linear-gradient(135deg, rgba(14,42,30,0.9) 0%, rgba(20,56,42,0.7) 100%);
-      border: 1px dashed rgba(212,175,55,0.3);
+      border: 2px dashed rgba(212,175,55,0.4);
     }
+
+    /* Hero card — gradient border + corner accents */
+    .hero-card {
+      position: relative;
+      border-radius: 1.5rem;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow:
+        0 10px 60px rgba(0,0,0,0.5),
+        0 0 70px rgba(212,175,55,0.18),
+        0 0 140px rgba(20,120,60,0.16),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 2.5px;
+      background: linear-gradient(
+        115deg,
+        rgba(212,175,55,0.75) 0%,
+        rgba(240,208,128,0.35) 22%,
+        rgba(20,120,60,0.45) 48%,
+        rgba(240,208,128,0.35) 74%,
+        rgba(212,175,55,0.75) 100%
+      );
+      background-size: 220% 220%;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events: none;
+      animation: hero-border-shimmer 9s ease-in-out infinite;
+    }
+    @keyframes hero-border-shimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    .hero-card .corner {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: 0 solid rgba(212,175,55,0.75);
+      pointer-events: none;
+    }
+    .hero-card .corner.tl { top: 10px;    left: 10px;    border-top-width: 1px;    border-left-width: 1px;  border-top-left-radius: 8px; }
+    .hero-card .corner.tr { top: 10px;    right: 10px;   border-top-width: 1px;    border-right-width: 1px; border-top-right-radius: 8px; }
+    .hero-card .corner.bl { bottom: 10px; left: 10px;    border-bottom-width: 1px; border-left-width: 1px;  border-bottom-left-radius: 8px; }
+    .hero-card .corner.br { bottom: 10px; right: 10px;   border-bottom-width: 1px; border-right-width: 1px; border-bottom-right-radius: 8px; }
   </style>
 </head>
 <body class="antialiased">
@@ -206,8 +262,11 @@
     <!-- Dark overlay -->
     <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to bottom, rgba(7,26,18,0.55) 0%, rgba(7,26,18,0.45) 60%, rgba(7,26,18,0.75) 100%);z-index:1;"></div>
 
-    <div class="relative z-10 max-w-4xl mx-auto w-full px-5 py-8 sm:px-10 sm:py-12 border border-white/10"
-         style="background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 8px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08);border-radius:1.5rem;">
+    <div class="hero-card relative z-10 max-w-4xl mx-auto w-full px-5 py-8 sm:px-10 sm:py-12">
+      <span class="corner tl" aria-hidden="true"></span>
+      <span class="corner tr" aria-hidden="true"></span>
+      <span class="corner bl" aria-hidden="true"></span>
+      <span class="corner br" aria-hidden="true"></span>
       <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-snug mb-4">
         Empowering <span class="gold-text">Innovation,</span><br/>Driving Impact
       </h1>
@@ -259,28 +318,28 @@
       </div>
 
       <div class="grid grid-cols-2 gap-4 reveal">
-        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-4 sm:p-6 card-hover">
+        <div class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-4 sm:p-6 card-hover">
           <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center mb-4">
             <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
           <h3 class="text-white font-semibold text-base sm:text-xl mb-2">Strategic Capital</h3>
           <p class="text-gray-300 text-sm sm:text-lg leading-relaxed">Patient, conviction-driven funding aligned with your vision.</p>
         </div>
-        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-4 sm:p-6 card-hover">
+        <div class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-4 sm:p-6 card-hover">
           <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center mb-4">
             <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           </div>
           <h3 class="text-white font-semibold text-base sm:text-xl mb-2">Global Network</h3>
           <p class="text-gray-300 text-sm sm:text-lg leading-relaxed">Access to investors, operators, and partners across the globe.</p>
         </div>
-        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-4 sm:p-6 card-hover">
+        <div class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-4 sm:p-6 card-hover">
           <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center mb-4">
             <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
           </div>
           <h3 class="text-white font-semibold text-base sm:text-xl mb-2">Deep Mentorship</h3>
           <p class="text-gray-300 text-sm sm:text-lg leading-relaxed">Hands-on guidance from founders who've built at scale.</p>
         </div>
-        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-4 sm:p-6 card-hover">
+        <div class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-4 sm:p-6 card-hover">
           <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center mb-4">
             <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
           </div>
@@ -354,7 +413,7 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
 
         <!-- AI & ML -->
-        <div class="focus-card bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal group" style="transition-delay:0ms;">
+        <div class="focus-card bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal group" style="transition-delay:0ms;">
           <div class="mb-6">
             <div class="w-12 h-12 rounded-xl bg-gold-500/8 border border-gold-500/15 flex items-center justify-center icon-ring mb-4 group-hover:border-gold-400/40 transition-colors">
               <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2h-2"/></svg>
@@ -374,7 +433,7 @@
         </div>
 
         <!-- FinTech -->
-        <div class="focus-card bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal group" style="transition-delay:100ms;">
+        <div class="focus-card bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal group" style="transition-delay:100ms;">
           <div class="mb-6">
             <div class="w-12 h-12 rounded-xl bg-gold-500/8 border border-gold-500/15 flex items-center justify-center icon-ring mb-4 group-hover:border-gold-400/40 transition-colors">
               <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
@@ -394,7 +453,7 @@
         </div>
 
         <!-- Cybersecurity -->
-        <div class="focus-card bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal group" style="transition-delay:200ms;">
+        <div class="focus-card bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal group" style="transition-delay:200ms;">
           <div class="mb-6">
             <div class="w-12 h-12 rounded-xl bg-gold-500/8 border border-gold-500/15 flex items-center justify-center icon-ring mb-4 group-hover:border-gold-400/40 transition-colors">
               <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
@@ -414,7 +473,7 @@
         </div>
 
         <!-- Sustainability -->
-        <div class="focus-card bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal group" style="transition-delay:300ms;">
+        <div class="focus-card bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal group" style="transition-delay:300ms;">
           <div class="mb-6">
             <div class="w-12 h-12 rounded-xl bg-gold-500/8 border border-gold-500/15 flex items-center justify-center icon-ring mb-4 group-hover:border-gold-400/40 transition-colors">
               <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -456,7 +515,7 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
 
         <!-- Magure -->
-        <a href="https://magureinc.com/" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col">
+        <a href="https://magureinc.com/" target="_blank" rel="noopener" class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col">
           <div class="flex items-start justify-between mb-6">
             <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-3">
               <img src="logos/magure.svg" alt="Magure" class="max-h-9 max-w-[128px] w-auto object-contain"
@@ -479,7 +538,7 @@
         </a>
 
         <!-- Demandify -->
-        <a href="https://demandifymedia.com" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:100ms;">
+        <a href="https://demandifymedia.com" target="_blank" rel="noopener" class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:100ms;">
           <div class="flex items-start justify-between mb-6">
             <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-2">
               <img src="logos/demandify.png" alt="Demandify" class="w-full h-full object-contain"
@@ -499,7 +558,7 @@
         </a>
 
         <!-- Trescon -->
-        <a href="https://tresconglobal.com" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:200ms;">
+        <a href="https://tresconglobal.com" target="_blank" rel="noopener" class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:200ms;">
           <div class="flex items-start justify-between mb-6">
             <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-3">
               <img src="logos/trescon.png" alt="Trescon" class="max-h-9 max-w-[128px] w-auto object-contain"
@@ -519,7 +578,7 @@
         </a>
 
         <!-- Aura -->
-        <a href="https://aurafinance.me" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:300ms;">
+        <a href="https://aurafinance.me" target="_blank" rel="noopener" class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:300ms;">
           <div class="flex items-start justify-between mb-6">
             <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-3">
               <img src="logos/aura-logo.png" alt="Aura" class="max-h-9 max-w-full w-auto object-contain"
@@ -539,7 +598,7 @@
         </a>
 
         <!-- Hedge5 -->
-        <a href="https://www.hedge5.in" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:400ms;">
+        <a href="https://www.hedge5.in" target="_blank" rel="noopener" class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:400ms;">
           <div class="flex items-start justify-between mb-6">
             <div class="w-36 h-14 flex items-center justify-center rounded-xl px-3" style="background:#0d2a45;">
               <img src="logos/hedge5.png" alt="Hedge5" class="max-h-9 max-w-[128px] w-auto object-contain"
@@ -559,7 +618,7 @@
         </a>
 
         <!-- Konfhub -->
-        <a href="https://konfhub.com" target="_blank" rel="noopener" class="bg-dark-700 border border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:500ms;">
+        <a href="https://konfhub.com" target="_blank" rel="noopener" class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-5 sm:p-8 card-hover reveal flex flex-col" style="transition-delay:500ms;">
           <div class="flex items-start justify-between mb-6">
             <div class="w-36 h-14 flex items-center justify-center bg-white rounded-xl px-3">
               <img src="logos/konfhub.svg" alt="Konfhub" class="max-h-9 max-w-[128px] w-auto object-contain"
@@ -616,7 +675,7 @@
           <div id="testimonial-slides" class="flex transition-transform duration-500 ease-in-out">
 
             <div class="testimonial-slide w-full flex-shrink-0 px-1">
-              <div class="relative bg-dark-700 border border-dark-500 rounded-2xl p-6 sm:p-10 md:p-14 gold-glow">
+              <div class="relative bg-dark-700 border-2 border-dark-500 rounded-2xl p-6 sm:p-10 md:p-14 gold-glow">
                 <div class="quote-mark font-serif text-gold-400/15 select-none absolute top-6 left-8">"</div>
                 <blockquote class="relative z-10 text-center">
                   <p class="font-serif text-xl md:text-2xl text-white leading-relaxed mb-8 italic">"The team at Fia Ventures brings an exceptional blend of strategic insight and market expertise. Their involvement has been instrumental in helping us refine our go-to-market strategy and expand into new geographies. It's rare to find a partner who understands your vision as much as they do."</p>
@@ -629,7 +688,7 @@
             </div>
 
             <div class="testimonial-slide w-full flex-shrink-0 px-1">
-              <div class="relative bg-dark-700 border border-dark-500 rounded-2xl p-6 sm:p-10 md:p-14 gold-glow">
+              <div class="relative bg-dark-700 border-2 border-dark-500 rounded-2xl p-6 sm:p-10 md:p-14 gold-glow">
                 <div class="quote-mark font-serif text-gold-400/15 select-none absolute top-6 left-8">"</div>
                 <blockquote class="relative z-10 text-center">
                   <p class="font-serif text-xl md:text-2xl text-white leading-relaxed mb-8 italic">"Fia Ventures is not just about investing — they're about making a difference. Their approach to supporting businesses like ours has been transformative, enabling Magure to innovate and deliver intelligent solutions that truly matter."</p>
@@ -642,7 +701,7 @@
             </div>
 
             <div class="testimonial-slide w-full flex-shrink-0 px-1">
-              <div class="relative bg-dark-700 border border-dark-500 rounded-2xl p-6 sm:p-10 md:p-14 gold-glow">
+              <div class="relative bg-dark-700 border-2 border-dark-500 rounded-2xl p-6 sm:p-10 md:p-14 gold-glow">
                 <div class="quote-mark font-serif text-gold-400/15 select-none absolute top-6 left-8">"</div>
                 <blockquote class="relative z-10 text-center">
                   <p class="font-serif text-xl md:text-2xl text-white leading-relaxed mb-8 italic">"When you're working on something as challenging as decarbonization, having a partner like Fia Ventures makes all the difference. Their strategic backing and global connections have propelled Hedge5 to drive real, measurable impact."</p>
@@ -655,7 +714,7 @@
             </div>
 
             <div class="testimonial-slide w-full flex-shrink-0 px-1">
-              <div class="relative bg-dark-700 border border-dark-500 rounded-2xl p-6 sm:p-10 md:p-14 gold-glow">
+              <div class="relative bg-dark-700 border-2 border-dark-500 rounded-2xl p-6 sm:p-10 md:p-14 gold-glow">
                 <div class="quote-mark font-serif text-gold-400/15 select-none absolute top-6 left-8">"</div>
                 <blockquote class="relative z-10 text-center">
                   <p class="font-serif text-xl md:text-2xl text-white leading-relaxed mb-8 italic">"The ability of Fia Ventures to balance innovation with a clear understanding of market needs is incredible. Their mentorship has strengthened Aura Finance's position as a next-generation FinTech company transforming the digital payments space."</p>
@@ -701,7 +760,7 @@
       <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
 
         <!-- Mohammed Saleem -->
-        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-6 sm:p-10 card-hover reveal text-center">
+        <div class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-6 sm:p-10 card-hover reveal text-center">
           <div class="w-28 h-28 rounded-full border-2 border-gold-500/30 mx-auto mb-6 gold-glow-sm overflow-hidden">
             <img src="photos/mohammed-saleem.png" alt="Mohammed Saleem"
                  class="w-full h-full object-cover object-top"
@@ -721,7 +780,7 @@
         </div>
 
         <!-- Dr. Fameeda Saleem -->
-        <div class="bg-dark-700 border border-dark-500 rounded-2xl p-6 sm:p-10 card-hover reveal text-center" style="transition-delay:100ms;">
+        <div class="bg-dark-700 border-2 border-dark-500 rounded-2xl p-6 sm:p-10 card-hover reveal text-center" style="transition-delay:100ms;">
           <div class="w-28 h-28 rounded-full border-2 border-gold-500/30 mx-auto mb-6 gold-glow-sm overflow-hidden">
             <img src="photos/fameeda-saleem.jpg" alt="Dr. Fameeda Saleem"
                  class="w-full h-full object-cover object-top"
